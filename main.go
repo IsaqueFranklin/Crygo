@@ -1,13 +1,16 @@
- package main
+//The most important thing for encryption is to generate random numbers, whithout it the encrypted data would be very predictable.
+
+package main
 
 import (
-	"crypto/sha256"
-	"fmt"
+  "fmt"
+  "time"
+  "math/rand"
 )
 
 func main() {
-	h := sha256.New()
-	h.Write([]byte("this is a password"))
-	// Calculate and print the hash
-	fmt.Printf("%x", h.Sum(nil))
+  rand.Seed(time.Now().UnixNano())
+  //The above line gives us the current time to the second and the seed parameter for rand changes each time.
+
+  fmt.Println(rand.Intn(100))
 }
