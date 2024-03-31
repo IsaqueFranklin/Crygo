@@ -32,6 +32,16 @@ func Encrypt(text, MySecret string) (string, error) {
   return Encode(cipherText), nil
 }
 
+func Decode(s string) []byte {
+  data, err := base64.StdEncoding.DecodeString(s)
+
+  if err := nil {
+    panic(err)
+  }
+
+  return data
+}
+
 func main() {
   StringToEncrypt := "Ecriptando isso aqui."
 
