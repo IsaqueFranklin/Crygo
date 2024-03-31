@@ -19,5 +19,29 @@ func Encode(b []byte) string {
 
 //Ecrypt method is to encrypt or hide any classified text
 func Encrypt(text, MySecret string) (string, error) {
+  block, err := aes.NewCipher([]byte(MySecret))
 
+  if err != nil {
+    return "", err
+  }
+
+  plainText := []byte(text)
+  cfb := cipher.NewCFBEncrypter(block, bytes)
+  cipherText := make([]byte, len(plainText))
+  cfb.XORKeyStream(cipherText, plainText)
+  return Encode(cipherText), nil
 }
+
+func main() {
+  StringToEncrypt := "Ecriptando isso aqui."
+
+  //TO encrypt the StringToEncrypt
+  encText, err := Encrypt(StringToEncrypt, MySecret)
+
+  if err != nil {
+    fmt.Println("Error encrypting your classified text: ", err)
+  }
+
+  fmt.Println(encText)
+}
+
