@@ -10,7 +10,7 @@ import (
 var bytes = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
 //This will be in an env file in production.
 
-const MySecret string = "askjfbakjsdbo3k4k4k5k5k>>>>>:::::!!! d"
+const MySecret string = "abc&1*~#^2^#s0^=)^^7%b34"
 
 func Encode(b []byte) string {
   return base64.StdEncoding.EncodeToString(b)
@@ -35,7 +35,7 @@ func Encrypt(text, MySecret string) (string, error) {
 func Decode(s string) []byte {
   data, err := base64.StdEncoding.DecodeString(s)
 
-  if err := nil {
+  if err != nil {
     panic(err)
   }
 
@@ -59,7 +59,7 @@ func Decrypt(text, MySecret string) (string, error) {
 }
 
 func main() {
-  StringToEncrypt := "Ecriptando isso aqui."
+  StringToEncrypt := "Encriptando isso aqui."
 
   //TO encrypt the StringToEncrypt
   encText, err := Encrypt(StringToEncrypt, MySecret)
@@ -69,5 +69,12 @@ func main() {
   }
 
   fmt.Println(encText)
+
+  decText, err := Decrypt("Li5E8RFcV/EPZY/neyCXQYjrfa/atA==", MySecret)
+  if err != nil {
+    fmt.Println("Error decrypting your encrypted text: ", err)
+  }
+
+  fmt.Println(decText)
 }
 
