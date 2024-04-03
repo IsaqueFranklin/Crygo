@@ -16,8 +16,6 @@ func Encode(b []byte) string {
   return base64.StdEncoding.EncodeToString(b)
 }
 
-//Qubit
-
 //Ecrypt method is to encrypt or hide any classified text
 func Encrypt(text, MySecret string) (string, error) {
   block, err := aes.NewCipher([]byte(MySecret))
