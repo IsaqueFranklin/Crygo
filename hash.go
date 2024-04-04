@@ -14,5 +14,14 @@ func main() {
   // fmt.Printf("%x", sum)
 
   //Calculate and print the hash
-  fmt.Printf("%x", h.Sum(nil))
+  fmt.Printf("This the first example: %x", h.Sum(nil))
+  fmt.Println("\n")
+
+  //This here is the example of how two diferent strings by only one character can change the whole hash.
+
+  sum := sha256.Sum256([]byte("this is password."))
+  sumCap := sha256.Sum256([]byte("This is password."))
+  fmt.Printf("Lowercase hash: %x", sum)
+  fmt.Printf("\n\n")
+  fmt.Printf("Capital hash: %x", sumCap)
 }
