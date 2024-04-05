@@ -8,10 +8,12 @@
 
  import (
   "fmt"
-  "io"
   "log"
   "crypto/sha256"
   "crypto/rsa"
+  "encoding/hex"
+  "crypto/rand"
+  "crypto"
  )
 
  func main() {
@@ -39,7 +41,7 @@
   fmt.Println("RSA ciphertext", hex.EncodeToString(rsact))
   
 
-  rsapt, err := priv.Decrypt(rand.Reacer, rsact, &options)
+  rsapt, err := priv.Decrypt(rand.Reader, rsact, &options)
   if err != nil {
     log.Fatalln(err)
   }
