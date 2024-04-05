@@ -34,6 +34,9 @@ func newCipherBlock(key string) (cipher.Block, error){
   return aes.NewCipher(bs[:])
 }
 
+//Here on those are function for padding and unpadding the plaintext.
+//Padding is simply the act of incrasing te length of the plaintext so that it can be a multiple of a fixed site (usually a block size). This is done by adding characters to the plaintext.
+
 var (
   // ErrInvalidBlockSize indicates hash blocksize <= 0.
   ErrInvalidBlockSize = errors.New("Invalid blocksize.")
@@ -89,4 +92,34 @@ func pkcs7Unpad(b []byte, blocksize int) ([]byte, error) {
   }
 
   return b[:len(b)-n], nil
+}
+
+//Writing the functions for encryption and the decryption.
+
+func encrypt(key, plaintext string) (string, error) {
+  block, err := newCipherBlock(key)
+  if err != nil {
+    return "", err
+  }
+
+  //pad plaintext
+  ptbs, _ := pkcs7Pad([]byte(plaintext), block.BlockSize())
+
+  if len(ptbs)%aes.BlockSize != 0 {
+    return "", errors.New("Plaintext is not a multiple of the block size.")
+  }
+
+  ciphertext := make([]byte, len(ptbs))
+  
+  //Create an initialization vector which is the length of the block size for AES.
+  var iv []byte = make([]byte, aes.BlockSize)
+  if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+    return "", err
+  }
+
+  //Ecrypt plaintext
+  mode.CryptBlocks(cipher, ptbs)
+
+  //Concatenate initialization vector and ciphertext.
+  return hex.EncodeToString(iv) + ":" + hex.EncodeToString](ciphertext), nil
 }
