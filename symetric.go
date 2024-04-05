@@ -157,3 +157,22 @@ func decrypt(key, ciphertext string) (string, error) {
 
   return string(ciphertextbs), nil
 }
+
+func main() {
+  pt := "Highly confidential message!"
+  key := "aSecret"
+
+  ct, err := encrypt(key, pt)
+  if err != nil {
+    log.Fatalln(err)
+  }
+
+  fmt.Println(ct)
+
+  ptt, err := decrypt(key, ct)
+  if err != nil {
+    log.Fatalln(err)
+  }
+
+  fmt.Println(ptt) //Highly confidential message.
+}
