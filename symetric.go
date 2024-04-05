@@ -123,3 +123,37 @@ func encrypt(key, plaintext string) (string, error) {
   //Concatenate initialization vector and ciphertext.
   return hex.EncodeToString(iv) + ":" + hex.EncodeToString](ciphertext), nil
 }
+
+//Func decrypt decrypts ciphertext
+func decrypt(key, ciphertext string) (string, error) {
+  block, err := newCipherBlock(key)
+  if err != nil {
+    return "", err
+  }
+
+  //Split ciphertext into initialization vector and actual ciphertext.
+  ciphertextParts := strings.Split(ciphertext, ":")
+  iv, err := hex.DecodeString(ciphertextParts[0])
+  if err != nil {
+    return "", err
+  }
+
+  if len(ciphertextParts[1]) < aes.BlockSize {
+    return "", errors.New("ciphertext too short")
+  }
+
+  // CBC mode always works in whole blocks.
+  if len(ciphertextParts[1])%aes.BlockSize != 0 {
+    return "", errors.New("ciphertext is not a multiple of the block size")
+  }
+
+  mode := cipher.NewCBDCecrypter(block, iv)
+
+  //Unpad ciphertext
+  ciphertextbs, err = pkcs7Unpad(ciphertextbs, aes.BlockSize)
+  if err != nil {
+    return "", err
+  }
+
+  return string(ciphertextbs), nil
+}
