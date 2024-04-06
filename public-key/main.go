@@ -27,7 +27,7 @@
 
    options := rsa.OAEPOptions{
      crypto.SHA256,
-     []byte("label"),
+     []byte("Label"),
    }
 
    message := "Secret message!"
