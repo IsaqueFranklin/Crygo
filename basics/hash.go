@@ -7,6 +7,8 @@ import (
 
 func main() {
   h := sha256.New()
+  g := sha256.New()
+  g.Write([]byte("Cracóvia."))
   h.Write([]byte("Cracóvia."))
 
   //Another sintax could be:
@@ -16,6 +18,7 @@ func main() {
   //Calculate and print the hash
   fmt.Printf("This the first example: %x", h.Sum(nil))
   fmt.Println("\n")
+  fmt.Printf("This the second example: %x", g.Sum(nil))
 
   //This here is the example of how two diferent strings by only one character can change the whole hash.
 
