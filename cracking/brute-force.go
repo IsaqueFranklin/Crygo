@@ -12,6 +12,14 @@ import (
   "sync"
 )
 
+/*Main
+ * Requires the url, port, and username to be sent as environment variables
+ * Makes a POST request to the url with fields username, email, and password
+ * Username and email values are set to the value provided in the program argument
+ * Password values are taken from the passwords.txt file
+ * All requests are JSON content type
+ */
+
 func main(){
   if len(os.Args) != 3 {
     log.Fatal("Please provide url and username.")
@@ -47,7 +55,7 @@ func readInPasswords(passwordFile string) []string {
 
   str := string(b) //Convert content b to a string
 
-  return string.Split(str, "\n")
+  return strings.Split(str, "\n")
 }
 
 //postToURL
