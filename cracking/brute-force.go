@@ -64,9 +64,12 @@ func postToURL(url string, username string, password string) (succeeded bool) {
     return false
   }
   defer resp.Body.Close()
-  fmt.Println("Response status: ", resp.Status)
-  var body interface{}
-  json.NewDecoder(resp.Body).Decode(&body)
-  fmt.Println(body)
+  if resp.StatusCode == 200 {
+    fmt.Println("Response status: ", resp.Status)
+    var body interface{}
+    json.NewDecoder(resp.Body).Decode(&body)
+    fmt.Println(body)
+  }
+  
   return resp.Status == "200"
 }
