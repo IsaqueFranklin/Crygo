@@ -13,7 +13,29 @@ import (
 )
 
 func main(){
-  fmt.Println("Hello.")
+  if len(os.Args) != 3 {
+    log.Fatal("Please provide url and username.")
+  }
+
+  url := os.Args[1]
+  username := os.Args[2]
+  passwords := readInPasswords("passwords.txt")
+
+  //Multithreaded solution
+  var wg sync.WaitGroup
+  wg.Add(len(passwords))
+  foundPassword := ""
+  for _, password := range passwords {
+    go func(password string) {
+      defer wg.Done()
+      if postToURL(url, username, password) {
+        foundPassword = password
+      }
+    }(password)
+  }
+
+  wg.Wait() //Wait until the for loop finishes.
+  fmt.Println("Found password is: ", foundPassword)
 }
 
 //This function is gonna read the passwords in the file passwords.txt and return a slice of strings.
