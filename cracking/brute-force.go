@@ -20,6 +20,8 @@ import (
  * All requests are JSON content type
  */
 
+ //Para usar command-line arguments é necessário adicionar os parâmetros logo após o comando "go run ."
+
 func main(){
   if len(os.Args) != 3 {
     log.Fatal("Please provide url and username.")
