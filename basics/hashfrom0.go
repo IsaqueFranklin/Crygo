@@ -102,7 +102,7 @@ func main(){
     //Create 64 word (uint32) array from message block
     words := uint32Array(bl)
     for i := 16; i < 64; i++ {
-      w := SmallSigmal(words[i-2]) + words[i-7] + SmallSigma0(words[i-15]) + words[i-16]
+      w := SmallSigma1(words[i-2]) + words[i-7] + SmallSigma0(words[i-15]) + words[i-16]
       words = append(words, w)
     }
 
@@ -118,7 +118,7 @@ func main(){
 
     //Rotation processing
     for t, w := range words {
-      T1 := h + LargeSigmal(e) +  Ch(e, f, g) + k[t] + w 
+      T1 := h + LargeSigma1(e) +  Ch(e, f, g) + K[t] + w 
       T2 := LargeSigma0(a) + Maj(a, b, c)
       h = g 
       g = f 
@@ -176,10 +176,10 @@ func Padding(input []byte, length int) []byte {
 }
 
 //Divide the input byte array into length pieces
-func split(input []byte, length int) [][]byte {
+func Split(input []byte, length int) [][]byte {
   var barr [][]byte
   n := len(input) / length
-  for i := 0; i < n: i++ {
+  for i := 0; i < n; i++ {
     barr = append(barr, input[i*length:(i+1)*length])
   }
   return barr
