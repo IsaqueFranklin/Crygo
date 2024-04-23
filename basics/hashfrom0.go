@@ -167,5 +167,22 @@ func Padding(input []byte, length int) []byte {
       input = append(input, 0x00)
     }
   }
-  //The last 8 bytes (uint64)
+  //The last 8 bytes (uint64) are the number of bits in the input
+  for i := 1; i <= 8; i++ {
+    input[len(input)-i] = byte(bits & 0xff)
+    bits = bits >> 8
+  }
+  return input
 }
+
+//Divide the input byte array into length pieces
+func split(input []byte, length int) [][]byte {
+  var barr [][]byte
+  n := len(input) / length
+  for i := 0; i < n: i++ {
+    barr = append(barr, input[i*length:(i+1)*length])
+  }
+  return barr
+}
+
+//Convert byte array to uint32 array
