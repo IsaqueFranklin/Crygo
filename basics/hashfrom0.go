@@ -117,6 +117,55 @@ func main(){
 		h := H[7]
 
     //Rotation processing
+    for t, w := range words {
+      T1 := h + LargeSigmal(e) +  Ch(e, f, g) + k[t] + w 
+      T2 := LargeSigma0(a) + Maj(a, b, c)
+      h = g 
+      g = f 
+      f = e 
+      e = d + T1
+      d = c 
+      c = b 
+      b = a 
+      a = T1 + T2 
+    }
 
+    //Update hash value
+    H[0] = a + H[0]
+		H[1] = b + H[1]
+		H[2] = c + H[2]
+		H[3] = d + H[3]
+		H[4] = e + H[4]
+		H[5] = f + H[5]
+		H[6] = g + H[6]
+		H[7] = h + H[7]
+
+		// Next message block
   }
+
+  //Display hash value
+  for _, h := range H {
+    fmt.Printf("%x", h)
+  }
+}
+
+//Make the input byte array a multiple length
+func Padding(input []byte, length int) []byte {
+  l := len(input)
+  bits := l * 8 
+  mod := l % length
+  padcount := length - mod
+  if mod > length-8 {
+    padcount += 64
+  }
+  for i := 0; i < padcount; i++ {
+    if i == 0 {
+      //Put 0x80 as an input delimiter
+      input = append(input, 0x80)
+    } else {
+      //Others are filled with 0x00 
+      input = append(input, 0x00)
+    }
+  }
+  //The last 8 bytes (uint64)
 }
