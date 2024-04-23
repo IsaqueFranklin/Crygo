@@ -186,3 +186,46 @@ func split(input []byte, length int) [][]byte {
 }
 
 //Convert byte array to uint32 array
+func uint32Array(b []byte) []uint32 {
+  var arr []uint32
+  for i := 0; i < len(b)/4; i++ {
+    var v uint32
+		v += uint32(b[i*4]) << 24
+		v += uint32(b[i*4+1]) << 16
+		v += uint32(b[i*4+2]) << 8
+		v += uint32(b[i*4+3])
+		arr = append(arr, v)
+  }
+  return arr
+}
+
+func Ch(x, y, z uint32) uint32 {
+	return (x & y) ^ (^x & z)
+}
+
+func Maj(x, y, z uint32) uint32 {
+	return (x & y) ^ (x & z) ^ (y & z)
+}
+
+func SmallSigma0(x uint32) uint32 {
+	return Rotr(x, 7) ^ Rotr(x, 18) ^ Shr(x, 3)
+}
+func SmallSigma1(x uint32) uint32 {
+	return Rotr(x, 17) ^ Rotr(x, 19) ^ Shr(x, 10)
+}
+func LargeSigma0(x uint32) uint32 {
+	return Rotr(x, 2) ^ Rotr(x, 13) ^ Rotr(x, 22)
+}
+func LargeSigma1(x uint32) uint32 {
+	return Rotr(x, 6) ^ Rotr(x, 11) ^ Rotr(x, 25)
+}
+
+// Right rotation
+func Rotr(x, n uint32) uint32 {
+	return x<<(32-n) | x>>n
+}
+
+// Right shift
+func Shr(x, n uint32) uint32 {
+	return x >> n
+}
