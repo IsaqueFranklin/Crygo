@@ -121,4 +121,34 @@ func (ec *EllipticCurve) VerifySignature(privKey *ecdsa.Privatekey, pubKey *ecds
 //Can be used in _test.go 
 //Test encode, decode and test it with deep equal.
 
+func (ec *EllipticCurve) Test(privKey *ecdsa.Privatekey, pubkey *ecdsa.Publickey) (err error) {
 
+  encPriv, err := ec.EncodePrivate(privKey)
+  if err != nil {
+    return
+  }
+  encPub, err := ec.EncodePublic(pubkeyKey)
+  if err != nil {
+    return
+  }
+
+  priv2, err := ec.DecodePrivate(encPriv)
+  if err != nil {
+    return
+  }
+  pub2, err := ec.DecodePublic(encPub)
+  if err != nil {
+    return
+  }
+
+  if !reflect.DeepEqual(privKey, priv2) {
+    err = errors.New("private keys do not match.")
+    return
+  }
+  if !reflect.DeepEqual(pubkey, pub2) {
+    err = errors.New("public keys do not match")
+    return
+  }
+
+  return
+}
