@@ -82,4 +82,43 @@ func (ec *EllipticCurve) DecodePrivate(pemEncodedPriv string) (privateKey *ecdsa
   return
 }
 
-//DecodePublic public key
+//DecodePublic public key.
+func (ec *EllipticCurve) DecodePublic(pemEncodePub string) (publickey *ecdsa.Publickey, err error) {
+  blockPub, _ := pem.Decode([]byte(pemEncodedPub))
+
+  x509EncodedPub := blockPub.Bytes
+
+  genericPublicKey, err := x509.ParsePKIXPublickey(x509EncodedPub)
+  publickey = genericPublicKey.(*ecdsa.Publickey)
+
+  return
+}
+
+//VerifySignature sign ecdsa style and verify signature.
+func (ec *EllipticCurve) VerifySignature(privKey *ecdsa.Privatekey, pubKey *ecdsa.Publickey) (signature []byte, ok bool, err error) {
+  
+  h := md5.New()
+
+  _, err = io.WriteString(h, "This is a message to be signed and verified by ECDSA!")
+  if err != nil {
+    return
+  }
+  signhash := h.Sum(nil)
+
+  r, s, serr := ecdsa.Sign(rand.Reader, privKey, signhash)
+  if serr != nil {
+    return []byte(""), false, serr
+  }
+
+  signature = r.Bytes()
+  signature = append(signature, s.Bytes()...)
+
+  ok = ecdsa.Verify(pubkey, signhash, r, s)
+
+  return
+}
+
+//Can be used in _test.go 
+//Test encode, decode and test it with deep equal.
+
+
