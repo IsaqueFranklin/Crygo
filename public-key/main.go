@@ -16,6 +16,8 @@
   "crypto"
  )
 
+ //Stuff
+
  func main() {
    //Create an RSA key pair of size 2048 bits
    priv, err := rsa.GenerateKey(rand.Reader, 2048)
