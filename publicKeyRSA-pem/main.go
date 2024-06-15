@@ -20,7 +20,7 @@ func main() {
   //Encode the private key to the PEM format
   privateKeyPEM := &pem.Block{
     Type: "RSA PRIVATE KEY",
-    Bytes: x509.MarshalPKCS1PrivateKey(privateKey)
+    Bytes: x509.MarshalPKCS1PrivateKey(privateKey),
   }
 
   privateKeyFile, err := os.Create("private_key.pem")
@@ -33,7 +33,7 @@ func main() {
   privateKeyFile.Close()
 
   //Extract the public key from the private key
-  publicKey := &privateKey.publicKey
+  publicKey := &privateKey.PublicKey
 
   //Encode the public key to the PEM format
   publicKeyPEM := &pem.Block{
